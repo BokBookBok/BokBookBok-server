@@ -26,10 +26,26 @@ public class AuthApi {
 
     private final AuthService authService;
 
+
     @Operation(summary = "회원가입")
     @PostMapping("/register")
     public ResponseEntity<BaseResponse<RegisterResponse>> register(@Valid @RequestBody RegisterRequest registerRequest) {
         RegisterResponse registerResponse = authService.register(registerRequest);
         return ResponseEntity.ok(BaseResponse.of(SuccessCode.USER_REGISTERED, registerResponse));
     }
+
+    @Operation(summary = "이메일 중복 확인", description = "true 반환 시, 이메일 중복")
+    @PostMapping("/register/email")
+    public ResponseEntity<BaseResponse<CheckDuplicatedResponse>> checkEmailDuplicated(@Valid @RequestBody CheckEmailDuplicatedRequest CheckEmailDuplicatedRequest) {
+        CheckDuplicatedResponse checkEmailResponse = authService.checkEmailDuplicated(CheckEmailDuplicatedRequest);
+        return ResponseEntity.ok(BaseResponse.of(SuccessCode.CHECK_EMAIL_DUPLICATED, checkEmailResponse));
+    }
+
+    @Operation(summary = "닉네임 중복 확인", description = "true 반환 시, 닉네임 중복")
+    @PostMapping("/register/nickname")
+    public ResponseEntity<BaseResponse<CheckDuplicatedResponse>> checkNicknameDuplicated(@Valid @RequestBody CheckNicknameDuplicatedRequest CheckNicknameDuplicatedRequest) {
+        CheckDuplicatedResponse checkNicknameResponse = authService.checkNicknameDuplicated(CheckNicknameDuplicatedRequest);
+        return ResponseEntity.ok(BaseResponse.of(SuccessCode.CHECK_NICKNAME_DUPLICATED, checkNicknameResponse));
+    }
+
 }

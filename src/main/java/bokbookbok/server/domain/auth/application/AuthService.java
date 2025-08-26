@@ -60,4 +60,24 @@ public class AuthService {
                 .build();
     }
 
+
+    public CheckDuplicatedResponse checkEmailDuplicated(CheckEmailDuplicatedRequest checkEmailDuplicatedRequest) {
+        Optional<User> user = userRepository.findByEmail(checkEmailDuplicatedRequest.getEmail());
+        boolean isDuplicated = user.isPresent();
+
+        return CheckDuplicatedResponse.builder()
+                .isDuplicated(isDuplicated)
+                .build();
+    }
+
+    public CheckDuplicatedResponse checkNicknameDuplicated(CheckNicknameDuplicatedRequest CheckNicknameDuplicatedRequest) {
+        Optional<User> user = userRepository.findByNickname(CheckNicknameDuplicatedRequest.getNickname());
+        boolean isDuplicated = user.isPresent();
+
+        return CheckDuplicatedResponse.builder()
+                .isDuplicated(isDuplicated)
+                .build();
+    }
+
+
 }
