@@ -78,6 +78,22 @@ public class AuthService {
     }
 
     public LoginResponse login(LoginRequest loginRequest) {
+
+        if (loginRequest.getEmail().equals(adminEmail)) {
+            if (!loginRequest.getPassword().equals(adminPwd)) {
+                throw new BusinessExceptionHandler(ErrorCode.INVALID_PASSWORD);
+            }
+
+            JwtToken jwtToken = jwtTokenGenerator.generateToken(
+                    "admin", JwtGrantType.GRANT_TYPE_ADMIN.getValue()
+            );
+
+            return LoginResponse.builder()
+                    .userId(null)
+                    .jwtToken(jwtToken)
+                    .build();
+        }
+
         User user = userRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new BusinessExceptionHandler(ErrorCode.INVALID_EMAIL));
 
@@ -85,7 +101,9 @@ public class AuthService {
             throw new BusinessExceptionHandler(ErrorCode.INVALID_PASSWORD);
         }
 
-        JwtToken jwtToken = jwtTokenGenerator.generateToken(user.getId().toString(), JwtGrantType.GRANT_TYPE_USER.getValue());
+        JwtToken jwtToken = jwtTokenGenerator.generateToken(
+                user.getId().toString(), JwtGrantType.GRANT_TYPE_USER.getValue()
+        );
 
         return LoginResponse.builder()
                 .userId(user.getId())
