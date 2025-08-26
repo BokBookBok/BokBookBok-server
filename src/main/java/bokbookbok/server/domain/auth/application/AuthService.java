@@ -5,6 +5,7 @@ import bokbookbok.server.domain.auth.enums.JwtGrantType;
 import bokbookbok.server.domain.auth.infra.JwtTokenGenerator;
 import bokbookbok.server.domain.user.dao.UserRepository;
 import bokbookbok.server.domain.user.domain.User;
+import bokbookbok.server.domain.user.domain.enums.Role;
 import bokbookbok.server.domain.user.dto.request.CheckEmailDuplicatedRequest;
 import bokbookbok.server.domain.user.dto.request.CheckNicknameDuplicatedRequest;
 import bokbookbok.server.domain.user.dto.request.LoginRequest;
@@ -26,8 +27,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthService {
     private final UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
-    private JwtTokenGenerator jwtTokenGenerator;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtTokenGenerator jwtTokenGenerator;
 
     @Value("${admin.email}")
     private String adminEmail;
@@ -47,7 +48,9 @@ public class AuthService {
 
         User user = User.builder()
                 .email(registerRequest.getEmail())
+                .nickname(registerRequest.getNickname())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
+                .role(Role.USER)
                 .build();
 
         userRepository.save(user);
