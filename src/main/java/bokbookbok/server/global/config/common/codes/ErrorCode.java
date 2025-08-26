@@ -20,6 +20,7 @@ public enum ErrorCode {
     PASSWORD_MISMATCH(HttpStatus.BAD_REQUEST, 4009, "현재 비밀번호 값이 일치하지 않습니다."),
     INVALID_PROFILE_IMAGE(HttpStatus.BAD_REQUEST, 4010,"이미지 파일만 업로드 가능합니다."),
     ALREADY_WRITTEN_REVIEW(HttpStatus.BAD_REQUEST, 4011,"이미 작성한 감상평이 있습니다."),
+    NOT_EXISTS_REVIEW(HttpStatus.NOT_FOUND, 4012, "등록되지 않은 감상평입니다."),
     INVALID_EMAIL_TYPE(HttpStatus.BAD_REQUEST, 4025, "이메일 형식이 올바르지 않습니다."),
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, 4020, "유효하지 않은 토큰입니다."),
     INVALID_DIRECTORY_ROUTE(HttpStatus.NOT_FOUND, 4022, "잘못된 디렉토리 경로입니다."),
