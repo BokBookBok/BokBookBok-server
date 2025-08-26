@@ -18,6 +18,7 @@ public enum SuccessCode {
     UPDATE_USER_INFO_SUCCESS(HttpStatus.OK, 2007, "회원 정보를 수정하였습니다."),
     WRITE_REVIEW_SUCCESS(HttpStatus.OK, 2008, "감상평이 등록되었습니다."),
     CHECK_NICKNAME_DUPLICATED(HttpStatus.OK, 2009, "닉네임 중복 확인이 완료되었습니다."),
+    GET_REVIEW_LIST_SUCCESS(HttpStatus.OK, 2010, "감상평 목록 조회가 완료되었습니다."),
     CHECK_EMAIL_DUPLICATED(HttpStatus.OK, 2014, "이메일 중복 확인이 완료되었습니다."),
     CHANGE_READING_STATUS_SUCCESS(HttpStatus.OK, 2015, "독서 상태가 변경되었습니다."),
     CHECK_READING_STATUS_SUCCESS(HttpStatus.OK, 2016, "독서 상태를 조회하였습니다."),
