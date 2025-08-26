@@ -1,6 +1,8 @@
 package bokbookbok.server.domain.review.application;
 
 import bokbookbok.server.domain.book.domain.Book;
+import bokbookbok.server.domain.book.dto.response.BookReviewResponse;
+import bokbookbok.server.domain.book.dto.response.ReviewItem;
 import bokbookbok.server.domain.book.repository.BookRepository;
 import bokbookbok.server.domain.review.dao.ReviewLikeRepository;
 import bokbookbok.server.domain.review.dao.ReviewRepository;
@@ -16,6 +18,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -74,6 +77,38 @@ public class ReviewService {
                 .reviewId(reviewId)
                 .liked(liked)
                 .likeCount(linkedCount)
+                .build();
+    }
+
+    public BookReviewResponse getBookReviews(User user, Long bookId) {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new BusinessExceptionHandler(ErrorCode.NOT_EXISTS_BOOK));
+        List<Review> reviews = reviewRepository.findAllByBook(book);
+
+        List<ReviewItem> reviewItems = reviews.stream()
+                .map(review -> {
+                    boolean liked = reviewLikeRepository.existsByUserAndReview(user, review);
+                    int likeCount = reviewLikeRepository.countByReview(review);
+
+                    return ReviewItem.builder()
+                            .reviewId(review.getId())
+                            .userId(review.getUser().getId())
+                            .nickname(review.getUser().getNickname())
+                            .content(review.getContent())
+                            .liked(liked)
+                            .likeCount(likeCount)
+                            .build();
+                })
+                .toList();
+
+        return BookReviewResponse.builder()
+                .myReview(reviewItems.stream()
+                        .filter(item -> item.getUserId().equals(user.getId()))
+                        .findFirst()
+                        .orElse(null))
+                .otherReviews(reviewItems.stream()
+                        .filter(item -> !item.getUserId().equals(user.getId()))
+                        .toList())
                 .build();
     }
 }
