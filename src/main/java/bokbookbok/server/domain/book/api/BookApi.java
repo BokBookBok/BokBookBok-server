@@ -20,7 +20,7 @@ public class BookApi {
     private final BookService bookService;
 
     @GetMapping("/{bookId}/status")
-    @Operation(description = "유저의 독서 상태 조회")
+    @Operation(summary = "유저의 독서 상태 조회")
     public BaseResponse<BookStatusResponse> getBookStatus(
             @Parameter(hidden = true) @CurrentUser User user,
             @PathVariable Long bookId) {
@@ -29,7 +29,7 @@ public class BookApi {
     }
 
     @PatchMapping("/{bookId}/status")
-    @Operation(description = "유저의 독서 상태 변경")
+    @Operation(summary = "유저의 독서 상태 변경")
     public BaseResponse<BookStatusResponse> updateBookStatus(
             @Parameter(hidden = true) @CurrentUser User user,
             @PathVariable Long bookId,

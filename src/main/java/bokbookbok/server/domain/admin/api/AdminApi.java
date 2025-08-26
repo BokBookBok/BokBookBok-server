@@ -21,7 +21,7 @@ public class AdminApi {
 
     private final AdminBookRegisterService adminBookRegisterService;
 
-    @Operation(description = "금주 도서 등록")
+    @Operation(summary = "금주 도서 등록")
     @PostMapping(value = "/books", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public BaseResponse<AdminBookRegisterResponse> AdminRegisterBook(
             @Parameter(hidden = true) @CurrentUser User admin,
