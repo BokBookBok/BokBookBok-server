@@ -35,7 +35,7 @@ public class SwaggerConfig {
                 .addList("Bearer Token");
 
         Server prodServer = new Server();
-        prodServer.setUrl("http://3.38.65.160/");
+        prodServer.setUrl("https://www.bokbookbok.shop");
         prodServer.setDescription("AWS EC2 서버");
 
         Server localServer = new Server();
