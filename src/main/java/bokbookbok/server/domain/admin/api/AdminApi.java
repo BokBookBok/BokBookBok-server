@@ -7,6 +7,7 @@ import bokbookbok.server.domain.user.domain.User;
 import bokbookbok.server.global.config.common.codes.SuccessCode;
 import bokbookbok.server.global.config.common.response.BaseResponse;
 import bokbookbok.server.global.config.resolver.CurrentUser;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ public class AdminApi {
 
     private final AdminBookRegisterService adminBookRegisterService;
 
+    @Operation(description = "금주 도서 등록")
     @PostMapping(value = "/books", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public BaseResponse<AdminBookRegisterResponse> AdminRegisterBook(
             @Parameter(hidden = true) @CurrentUser User admin,
