@@ -14,6 +14,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+
 @Service
 @AllArgsConstructor
 public class BookService {
@@ -26,18 +28,14 @@ public class BookService {
                 .orElseThrow(() -> new BusinessExceptionHandler(ErrorCode.NOT_EXISTS_BOOK));
 
         Status newStatus = updateBookStatusRequest.getStatus();
+        UserBookRecord record = recordRepository.findByUserAndBook(user, book)
+                .orElseGet(() -> UserBookRecord.builder()
+                        .user(user)
+                        .book(book)
+                        .status(newStatus)
+                        .build());
 
-        UserBookRecord record = recordRepository.findByUserAndBook(user, book).orElse(null);
-        if (record == null) {
-            record = UserBookRecord.builder()
-                    .user(user)
-                    .book(book)
-                    .status(newStatus)
-                    .build();
-        } else {
-            record.updateStatus(newStatus);
-        }
-
+        record.updateStatusWithDate(newStatus, LocalDate.now());
         UserBookRecord savedRecord = recordRepository.save(record);
 
         return BookStatusResponse.from(savedRecord);

@@ -7,6 +7,8 @@ import bokbookbok.server.global.config.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -25,7 +27,6 @@ public class UserBookRecord extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
@@ -33,6 +34,21 @@ public class UserBookRecord extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status = Status.NOT_STARTED;
+
+    private LocalDate startedAt;
+    private LocalDate endedAt;
+
+    public void updateStatusWithDate(Status newStatus, LocalDate today) {
+        this.status = newStatus;
+
+        if (newStatus == Status.READING && this.startedAt == null) {
+            this.startedAt = today;
+        }
+
+        if (newStatus == Status.READ_COMPLETED) {
+            this.endedAt = today;
+        }
+    }
 
     public void updateStatus(Status status) {
         this.status = status;
