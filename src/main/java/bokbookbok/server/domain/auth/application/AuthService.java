@@ -78,18 +78,21 @@ public class AuthService {
     }
 
     public LoginResponse login(LoginRequest loginRequest) {
-
         if (loginRequest.getEmail().equals(adminEmail)) {
-            if (!loginRequest.getPassword().equals(adminPwd)) {
+            User adminUser = userRepository.findByEmail(adminEmail)
+                    .orElseThrow(() -> new BusinessExceptionHandler(ErrorCode.INVALID_EMAIL));
+
+            if (!passwordEncoder.matches(loginRequest.getPassword(), adminUser.getPassword())) {
                 throw new BusinessExceptionHandler(ErrorCode.INVALID_PASSWORD);
             }
 
             JwtToken jwtToken = jwtTokenGenerator.generateToken(
-                    "admin", JwtGrantType.GRANT_TYPE_ADMIN.getValue()
+                    adminUser.getId().toString(),
+                    JwtGrantType.GRANT_TYPE_ADMIN.getValue()
             );
 
             return LoginResponse.builder()
-                    .userId(null)
+                    .userId(adminUser.getId())
                     .jwtToken(jwtToken)
                     .build();
         }
