@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -35,6 +36,7 @@ public class AuthService {
     @Value("${admin.password}")
     private String adminPwd;
 
+    @Transactional
     public RegisterResponse register(RegisterRequest registerRequest) {
 
         if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
