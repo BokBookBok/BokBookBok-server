@@ -1,5 +1,6 @@
 package bokbookbok.server.domain.user.domain;
 
+import bokbookbok.server.domain.user.domain.enums.Role;
 import bokbookbok.server.global.config.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,4 +25,7 @@ public class User extends BaseEntity {
 
     @Column(nullable = false, length = 255)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }
