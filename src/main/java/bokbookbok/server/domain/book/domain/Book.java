@@ -23,10 +23,16 @@ public class Book extends BaseEntity {
     private String title;
 
     @Column(nullable = false)
+    private String author;
+
+    @Column(nullable = false)
     private String description;
 
     @Column(name = "book_image_url", length = 512)
     private String imageUrl;
+
+    @Column(nullable = false)
+    private boolean isCurrent;
 
     private LocalDate startDate;
     private LocalDate endDate;
