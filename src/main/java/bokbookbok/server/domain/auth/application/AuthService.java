@@ -15,7 +15,6 @@ import bokbookbok.server.domain.user.dto.response.LoginResponse;
 import bokbookbok.server.domain.user.dto.response.RegisterResponse;
 import bokbookbok.server.global.config.common.codes.ErrorCode;
 import bokbookbok.server.global.config.exception.BusinessExceptionHandler;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -60,7 +59,6 @@ public class AuthService {
                 .build();
     }
 
-
     public CheckDuplicatedResponse checkEmailDuplicated(CheckEmailDuplicatedRequest checkEmailDuplicatedRequest) {
         Optional<User> user = userRepository.findByEmail(checkEmailDuplicatedRequest.getEmail());
         boolean isDuplicated = user.isPresent();
@@ -79,5 +77,19 @@ public class AuthService {
                 .build();
     }
 
+    public LoginResponse login(LoginRequest loginRequest) {
+        User user = userRepository.findByEmail(loginRequest.getEmail())
+                .orElseThrow(() -> new BusinessExceptionHandler(ErrorCode.INVALID_EMAIL));
 
+        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+            throw new BusinessExceptionHandler(ErrorCode.INVALID_PASSWORD);
+        }
+
+        JwtToken jwtToken = jwtTokenGenerator.generateToken(user.getId().toString(), JwtGrantType.GRANT_TYPE_USER.getValue());
+
+        return LoginResponse.builder()
+                .userId(user.getId())
+                .jwtToken(jwtToken)
+                .build();
+    }
 }

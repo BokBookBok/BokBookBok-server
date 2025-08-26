@@ -48,4 +48,11 @@ public class AuthApi {
         return ResponseEntity.ok(BaseResponse.of(SuccessCode.CHECK_NICKNAME_DUPLICATED, checkNicknameResponse));
     }
 
+    @Operation(summary = "로그인")
+    @PostMapping("/login")
+    public ResponseEntity<BaseResponse<LoginResponse>> login(@RequestBody LoginRequest loginRequest) {
+        LoginResponse loginResponse = authService.login(loginRequest);
+        return ResponseEntity.ok(BaseResponse.of(SuccessCode.LOGIN_SUCCESS, loginResponse));
+    }
+
 }
