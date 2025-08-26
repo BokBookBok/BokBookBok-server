@@ -36,7 +36,7 @@ public class BookApi {
     public BaseResponse<BookStatusResponse> updateBookStatus(
             @Parameter(hidden = true) @CurrentUser User user,
             @PathVariable Long bookId,
-            UpdateBookStatusRequest updateBookStatusRequest) {
+            @RequestBody UpdateBookStatusRequest updateBookStatusRequest) {
 
         BookStatusResponse updateBookStatusResponse = bookService.updateBookStatus
                 (bookId, user, updateBookStatusRequest);
