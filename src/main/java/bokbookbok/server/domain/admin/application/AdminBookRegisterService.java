@@ -19,12 +19,18 @@ public class AdminBookRegisterService {
     public AdminBookRegisterResponse registerBook(AdminBookRegisterRequest adminBookRegisterRequest) {
         String imageUrl = s3Service.upload(adminBookRegisterRequest.getBookImageUrl(), "book");
 
+        if (adminBookRegisterRequest.isCurrentOrDefault()) {
+            bookRepository.resetAllCurrentFlags();
+        }
+
         Book book = Book.builder()
                 .title(adminBookRegisterRequest.getTitle())
                 .description(adminBookRegisterRequest.getDescription())
                 .startDate(adminBookRegisterRequest.getStartDate())
                 .endDate(adminBookRegisterRequest.getEndDate())
+                .author(adminBookRegisterRequest.getAuthor())
                 .imageUrl(imageUrl)
+                .isCurrent(adminBookRegisterRequest.isCurrentOrDefault())
                 .build();
 
         bookRepository.save(book);
