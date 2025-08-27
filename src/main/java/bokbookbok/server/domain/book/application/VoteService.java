@@ -24,7 +24,6 @@ public class VoteService {
 
     @Transactional
     public VoteResultResponse vote(Long bookId, User user, VoteOption option) {
-
         Vote vote = voteRepository.findByBook_Id(bookId)
                 .orElseThrow(() -> new BusinessExceptionHandler(ErrorCode.VOTE_NOT_FOUND));
 
@@ -39,27 +38,44 @@ public class VoteService {
             vote.incrementCountB();
         }
 
-        VoteUser voteUser = VoteUser.create(vote, user, option);
-        voteUserRepository.save(voteUser);
+        voteUserRepository.save(VoteUser.create(vote, user, option));
+        return createVoteResultResponse(vote, user);
+    }
 
-        int total = vote.getCountA() + vote.getCountB();
+    @Transactional(readOnly = true)
+    public VoteResultResponse getVoteResult(Long bookId, User user) {
+        Vote vote = voteRepository.findByBook_Id(bookId)
+                .orElseThrow(() -> new BusinessExceptionHandler(ErrorCode.VOTE_NOT_FOUND));
+
+        return createVoteResultResponse(vote, user);
+    }
+
+    private VoteResultResponse createVoteResultResponse(Vote vote, User user) {
+        int countA = vote.getCountA();
+        int countB = vote.getCountB();
+        int total = countA + countB;
+
         VoteResultItem resultA = VoteResultItem.builder()
                 .option(VoteOption.A)
                 .text(vote.getOptionA())
-                .count(vote.getCountA())
-                .percentage((vote.getCountA() * 100.0) / total)
+                .count(countA)
+                .percentage(total == 0 ? 0.0 : (countA * 100.0) / total)
                 .build();
 
         VoteResultItem resultB = VoteResultItem.builder()
                 .option(VoteOption.B)
                 .text(vote.getOptionB())
-                .count(vote.getCountB())
-                .percentage((vote.getCountB() * 100.0) / total)
+                .count(countB)
+                .percentage(total == 0 ? 0.0 : (countB * 100.0) / total)
                 .build();
+
+        VoteUser voteUser = voteUserRepository.findByVoteAndUser(vote, user).orElse(null);
+        VoteOption myVote = voteUser != null ? voteUser.getSelected() : null;
 
         return VoteResultResponse.builder()
                 .voteResult(List.of(resultA, resultB))
+                .myVote(myVote)
+                .question(vote.getQuestion())
                 .build();
     }
 }
-
