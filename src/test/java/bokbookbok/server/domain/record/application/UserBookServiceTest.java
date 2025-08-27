@@ -20,7 +20,7 @@ class UserBookServiceTest {
     private UserBookRecordRepository recordRepository;
 
     @InjectMocks
-    private UserBookService userBookService;
+    private UserBookRecordService userBookService;
 
     public UserBookServiceTest() {
         MockitoAnnotations.openMocks(this);
