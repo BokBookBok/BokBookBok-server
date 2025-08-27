@@ -25,6 +25,7 @@ public enum ErrorCode {
     CURRENT_BOOK_NOT_FOUND(HttpStatus.NOT_FOUND, 4014, "금주 도서를 찾지 못했습니다."),
     ALREADY_VOTED(HttpStatus.NOT_FOUND, 4015, "이미 투표에 참여한 질문입니다."),
     VOTE_NOT_FOUND(HttpStatus.NOT_FOUND, 4016, "아직 생성된 투표가 없습니다. 감상문이 5개 이상일 경우 생성됩니다."),
+    INVALID_GPT_RESPONSE(HttpStatus.NOT_FOUND, 4017, "GPT 응답 형식이 올바르지 않습니다."),
     INVALID_EMAIL_TYPE(HttpStatus.BAD_REQUEST, 4025, "이메일 형식이 올바르지 않습니다."),
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, 4020, "유효하지 않은 토큰입니다."),
     INVALID_DIRECTORY_ROUTE(HttpStatus.NOT_FOUND, 4022, "잘못된 디렉토리 경로입니다."),

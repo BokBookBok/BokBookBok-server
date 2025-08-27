@@ -1,5 +1,6 @@
 package bokbookbok.server.domain.review.application;
 
+import bokbookbok.server.domain.book.application.VoteService;
 import bokbookbok.server.domain.book.domain.Book;
 import bokbookbok.server.domain.book.dto.response.BookReviewResponse;
 import bokbookbok.server.domain.book.dto.response.ReviewItem;
@@ -29,6 +30,8 @@ public class ReviewService {
     private final ReviewLikeRepository reviewLikeRepository;
     private final BookRepository bookRepository;
 
+    private final VoteService voteService;
+
     @Transactional
     public CreateReviewResponse createReview(User user, CreateReviewRequest createReviewRequest) {
         Book book = bookRepository.findById(createReviewRequest.getBookId())
@@ -45,6 +48,7 @@ public class ReviewService {
                 .build();
 
         reviewRepository.save(review);
+        voteService.checkAndCreateVoteIfNeeded(book.getId());
 
         return CreateReviewResponse.builder()
                 .reviewId(review.getId())
