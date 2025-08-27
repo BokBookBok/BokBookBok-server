@@ -25,6 +25,7 @@ public enum SuccessCode {
     CHECK_EMAIL_DUPLICATED(HttpStatus.OK, 2014, "이메일 중복 확인이 완료되었습니다."),
     CHANGE_READING_STATUS_SUCCESS(HttpStatus.OK, 2015, "독서 상태가 변경되었습니다."),
     CHECK_READING_STATUS_SUCCESS(HttpStatus.OK, 2016, "독서 상태를 조회하였습니다."),
+    VOTE_SUCCESS(HttpStatus.OK, 2017, "투표가 완료되었습니다."),
     ADMIN_TOKEN_SUCCESS(HttpStatus.OK, 2025, "관리자 토큰이 발급되었습니다.");
 
     private final HttpStatus status;
