@@ -6,12 +6,12 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class RecordResponse {
+public class RecordDayResponse {
     private int readingDays;
     private int averageDays;
 
-    public static RecordResponse from(UserBookRecord record, int averageDays) {
-        return RecordResponse.builder()
+    public static RecordDayResponse from(UserBookRecord record, int averageDays) {
+        return RecordDayResponse.builder()
                 .readingDays(record.getReadingDays())
                 .averageDays(averageDays)
                 .build();

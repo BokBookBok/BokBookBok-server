@@ -4,7 +4,7 @@ import bokbookbok.server.domain.book.domain.Book;
 import bokbookbok.server.domain.book.domain.enums.Status;
 import bokbookbok.server.domain.book.dto.response.BookInfoResponse;
 import bokbookbok.server.domain.record.domain.UserBookRecord;
-import bokbookbok.server.domain.record.dto.response.RecordResponse;
+import bokbookbok.server.domain.record.dto.response.RecordDayResponse;
 import bokbookbok.server.domain.review.domain.Review;
 import bokbookbok.server.domain.review.dto.response.ReviewResponse;
 import lombok.Builder;
@@ -15,7 +15,7 @@ import lombok.Getter;
 public class HomeResponse {
 
     private BookInfoResponse book;
-    private RecordResponse record;
+    private RecordDayResponse record;
     private ReviewResponse myReview;
     private ReviewResponse bestReview;
 
@@ -32,7 +32,7 @@ public class HomeResponse {
     public static HomeResponse forReading(Book book, UserBookRecord record, Review bestReview, int averageDays) {
         return HomeResponse.builder()
                 .book(BookInfoResponse.from(book))
-                .record(RecordResponse.from(record, averageDays))
+                .record(RecordDayResponse.from(record, averageDays))
                 .bestReview(ReviewResponse.from(bestReview))
                 .status(record.getStatus())
                 .build();
@@ -41,7 +41,7 @@ public class HomeResponse {
     public static HomeResponse forReadCompleted(Book book, UserBookRecord record, Review bestReview, int averageDays) {
         return HomeResponse.builder()
                 .book(BookInfoResponse.from(book))
-                .record(RecordResponse.from(record, averageDays))
+                .record(RecordDayResponse.from(record, averageDays))
                 .status(record.getStatus())
                 .bestReview(ReviewResponse.from(bestReview))
                 .build();
@@ -50,7 +50,7 @@ public class HomeResponse {
     public static HomeResponse forReviewed(Book book, UserBookRecord record, Review myReview, Review bestReview, int averageDays) {
         return HomeResponse.builder()
                 .book(BookInfoResponse.from(book))
-                .record(RecordResponse.from(record, averageDays))
+                .record(RecordDayResponse.from(record, averageDays))
                 .myReview(ReviewResponse.from(myReview))
                 .status(record.getStatus())
                 .bestReview(ReviewResponse.from(bestReview))
