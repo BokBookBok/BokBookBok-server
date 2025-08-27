@@ -21,6 +21,7 @@ public enum SuccessCode {
     GET_REVIEW_LIST_SUCCESS(HttpStatus.OK, 2010, "감상평 목록 조회가 완료되었습니다."),
     GET_HOME_INFO(HttpStatus.OK, 2011, "홈 화면 조회가 완료되었습니다."),
     GET_THIS_WEEK_BOOK(HttpStatus.OK, 2012, "금주 도서 조회가 완료되었습니다."),
+    GET_RECORDS_SUCCESS(HttpStatus.OK, 2013, "감상평 홈 조회가 완료되었습니다."),
     CHECK_EMAIL_DUPLICATED(HttpStatus.OK, 2014, "이메일 중복 확인이 완료되었습니다."),
     CHANGE_READING_STATUS_SUCCESS(HttpStatus.OK, 2015, "독서 상태가 변경되었습니다."),
     CHECK_READING_STATUS_SUCCESS(HttpStatus.OK, 2016, "독서 상태를 조회하였습니다."),
