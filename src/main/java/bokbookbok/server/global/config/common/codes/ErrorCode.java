@@ -22,6 +22,7 @@ public enum ErrorCode {
     ALREADY_WRITTEN_REVIEW(HttpStatus.BAD_REQUEST, 4011,"이미 작성한 감상평이 있습니다."),
     NOT_EXISTS_REVIEW(HttpStatus.NOT_FOUND, 4012, "등록되지 않은 감상평입니다."),
     INVALID_STATUS(HttpStatus.BAD_REQUEST, 4013, "유효하지 않은 상태값입니다."),
+    CURRENT_BOOK_NOT_FOUND(HttpStatus.NOT_FOUND, 4014, "금주 도서를 찾지 못했습니다."),
     INVALID_EMAIL_TYPE(HttpStatus.BAD_REQUEST, 4025, "이메일 형식이 올바르지 않습니다."),
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, 4020, "유효하지 않은 토큰입니다."),
     INVALID_DIRECTORY_ROUTE(HttpStatus.NOT_FOUND, 4022, "잘못된 디렉토리 경로입니다."),

@@ -2,6 +2,7 @@ package bokbookbok.server.domain.book.api;
 
 import bokbookbok.server.domain.book.application.BookService;
 import bokbookbok.server.domain.book.dto.request.UpdateBookStatusRequest;
+import bokbookbok.server.domain.book.dto.response.BookInfoResponse;
 import bokbookbok.server.domain.book.dto.response.BookReviewResponse;
 import bokbookbok.server.domain.book.dto.response.BookStatusResponse;
 import bokbookbok.server.domain.review.application.ReviewService;
@@ -21,6 +22,14 @@ public class BookApi {
 
     private final BookService bookService;
     private final ReviewService reviewService;
+
+    @GetMapping("/current")
+    @Operation(summary = "금주 도서 조회")
+    public BaseResponse<BookInfoResponse> getCurrentBook(
+            @Parameter(hidden = true) @CurrentUser User user) {
+        BookInfoResponse bookInfoResponse = bookService.getCurrentBook(user);
+        return BaseResponse.of(SuccessCode.GET_THIS_WEEK_BOOK, bookInfoResponse);
+    }
 
     @GetMapping("/{bookId}/status")
     @Operation(summary = "현재 독서 상태 조회")

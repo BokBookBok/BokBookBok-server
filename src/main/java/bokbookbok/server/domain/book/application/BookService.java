@@ -3,6 +3,7 @@ package bokbookbok.server.domain.book.application;
 import bokbookbok.server.domain.book.domain.Book;
 import bokbookbok.server.domain.book.domain.enums.Status;
 import bokbookbok.server.domain.book.dto.request.UpdateBookStatusRequest;
+import bokbookbok.server.domain.book.dto.response.BookInfoResponse;
 import bokbookbok.server.domain.book.dto.response.BookStatusResponse;
 import bokbookbok.server.domain.book.repository.BookRepository;
 import bokbookbok.server.domain.record.dao.UserBookRecordRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -58,5 +60,12 @@ public class BookService {
                 .bookId(book.getId())
                 .status(status)
                 .build();
+    }
+
+    public BookInfoResponse getCurrentBook(User user) {
+        Book book = bookRepository.findCurrentBook()
+                .orElseThrow(() -> new BusinessExceptionHandler(ErrorCode.CURRENT_BOOK_NOT_FOUND));
+
+        return BookInfoResponse.from(book);
     }
 }
