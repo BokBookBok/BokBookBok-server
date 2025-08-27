@@ -56,6 +56,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/**").permitAll()
                                 .requestMatchers("/", "/index.html", "/favicon.ico").permitAll()
                                 .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**", "/swagger-resources/**", "/webjars/**").permitAll()
+                                .requestMatchers("/actuator/health").permitAll() // 헬스체크 허용
                                 .anyRequest().authenticated()
                 )
                 .build();
