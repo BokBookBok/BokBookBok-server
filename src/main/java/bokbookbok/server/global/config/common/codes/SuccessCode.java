@@ -8,26 +8,26 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum SuccessCode {
 
-    OK(HttpStatus.OK, 2000, "OK"),
-    USER_REGISTERED(HttpStatus.CREATED, 2001, "회원가입이 완료되었습니다."),
-    LOGIN_SUCCESS(HttpStatus.OK, 2002, "로그인에 성공하였습니다."),
-    USER_EMAIL_FOUND(HttpStatus.OK, 2003, "아이디 조회에 성공하였습니다."),
-    REGISTER_THIS_WEEK_BOOK(HttpStatus.OK, 2004, "금주 책 정보가 업로드 되었습니다."),
-    LIKE_REVIEW_SUCCESS(HttpStatus.OK, 2005, "감상평에 좋아요가 반영되었습니다."),
-    UNLIKE_REVIEW_SUCCESS(HttpStatus.OK, 2006, "감상평에 좋아요가 취소되었습니다."),
-    UPDATE_USER_INFO_SUCCESS(HttpStatus.OK, 2007, "회원 정보를 수정하였습니다."),
-    WRITE_REVIEW_SUCCESS(HttpStatus.OK, 2008, "감상평이 등록되었습니다."),
-    CHECK_NICKNAME_DUPLICATED(HttpStatus.OK, 2009, "닉네임 중복 확인이 완료되었습니다."),
-    GET_REVIEW_LIST_SUCCESS(HttpStatus.OK, 2010, "감상평 목록 조회가 완료되었습니다."),
-    GET_HOME_INFO(HttpStatus.OK, 2011, "홈 화면 조회가 완료되었습니다."),
-    GET_THIS_WEEK_BOOK(HttpStatus.OK, 2012, "금주 도서 조회가 완료되었습니다."),
-    GET_RECORDS_SUCCESS(HttpStatus.OK, 2013, "감상평 홈 조회가 완료되었습니다."),
-    CHECK_EMAIL_DUPLICATED(HttpStatus.OK, 2014, "이메일 중복 확인이 완료되었습니다."),
-    CHANGE_READING_STATUS_SUCCESS(HttpStatus.OK, 2015, "독서 상태가 변경되었습니다."),
-    CHECK_READING_STATUS_SUCCESS(HttpStatus.OK, 2016, "독서 상태를 조회하였습니다."),
-    VOTE_SUCCESS(HttpStatus.OK, 2017, "투표가 완료되었습니다."),
-    GET_VOTE_RESULTS_SUCCESS(HttpStatus.OK, 2018, "투표 결과 조회가 완료되었습니다."),
-    ADMIN_TOKEN_SUCCESS(HttpStatus.OK, 2025, "관리자 토큰이 발급되었습니다.");
+    OK(HttpStatus.OK, 200, "OK"),
+    USER_REGISTERED(HttpStatus.CREATED, 200, "회원가입이 완료되었습니다."),
+    LOGIN_SUCCESS(HttpStatus.OK, 200, "로그인에 성공하였습니다."),
+    USER_EMAIL_FOUND(HttpStatus.OK, 200, "아이디 조회에 성공하였습니다."),
+    REGISTER_THIS_WEEK_BOOK(HttpStatus.OK, 200, "금주 책 정보가 업로드 되었습니다."),
+    LIKE_REVIEW_SUCCESS(HttpStatus.OK, 200, "감상평에 좋아요가 반영되었습니다."),
+    UNLIKE_REVIEW_SUCCESS(HttpStatus.OK, 200, "감상평에 좋아요가 취소되었습니다."),
+    UPDATE_USER_INFO_SUCCESS(HttpStatus.OK, 200, "회원 정보를 수정하였습니다."),
+    WRITE_REVIEW_SUCCESS(HttpStatus.OK, 200, "감상평이 등록되었습니다."),
+    CHECK_NICKNAME_DUPLICATED(HttpStatus.OK, 200, "닉네임 중복 확인이 완료되었습니다."),
+    GET_REVIEW_LIST_SUCCESS(HttpStatus.OK, 200, "감상평 목록 조회가 완료되었습니다."),
+    GET_HOME_INFO(HttpStatus.OK, 200, "홈 화면 조회가 완료되었습니다."),
+    GET_THIS_WEEK_BOOK(HttpStatus.OK, 200, "금주 도서 조회가 완료되었습니다."),
+    GET_RECORDS_SUCCESS(HttpStatus.OK, 200, "감상평 홈 조회가 완료되었습니다."),
+    CHECK_EMAIL_DUPLICATED(HttpStatus.OK, 200, "이메일 중복 확인이 완료되었습니다."),
+    CHANGE_READING_STATUS_SUCCESS(HttpStatus.OK, 200, "독서 상태가 변경되었습니다."),
+    CHECK_READING_STATUS_SUCCESS(HttpStatus.OK, 200, "독서 상태를 조회하였습니다."),
+    VOTE_SUCCESS(HttpStatus.OK, 200, "투표가 완료되었습니다."),
+    GET_VOTE_RESULTS_SUCCESS(HttpStatus.OK, 200, "투표 결과 조회가 완료되었습니다."),
+    ADMIN_TOKEN_SUCCESS(HttpStatus.OK, 200, "관리자 토큰이 발급되었습니다.");
 
     private final HttpStatus status;
     private final int code;
