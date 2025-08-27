@@ -10,6 +10,7 @@ import java.time.LocalDate;
 public class AdminBookRegisterResponse {
     private Long bookId;
     private String title;
+    private String author;
     private String description;
     private LocalDate startDate;
     private LocalDate endDate;
