@@ -4,7 +4,7 @@ import bokbookbok.server.domain.book.domain.Book;
 import bokbookbok.server.domain.book.domain.enums.Status;
 import bokbookbok.server.domain.book.repository.BookRepository;
 import bokbookbok.server.domain.home.dto.response.HomeResponse;
-import bokbookbok.server.domain.record.application.UserBookService;
+import bokbookbok.server.domain.record.application.UserBookRecordService;
 import bokbookbok.server.domain.record.dao.UserBookRecordRepository;
 import bokbookbok.server.domain.record.domain.UserBookRecord;
 import bokbookbok.server.domain.review.dao.ReviewRepository;
@@ -24,7 +24,7 @@ public class HomeService {
     private final BookRepository bookRepository;
     private final UserBookRecordRepository recordRepository;
     private final ReviewRepository reviewRepository;
-    private final UserBookService userBookService;
+    private final UserBookRecordService userBookService;
 
     @Transactional(readOnly = true)
     public HomeResponse getHome(User user) {
