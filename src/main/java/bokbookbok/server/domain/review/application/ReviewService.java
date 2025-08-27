@@ -71,12 +71,14 @@ public class ReviewService {
             liked = true;
         }
 
-        int linkedCount = reviewLikeRepository.countByReview(review);
+        int likeCount = reviewLikeRepository.countByReview(review);
+        review.updateLikeCount(likeCount);
+        reviewRepository.save(review);
 
         return ReviewLikeResponse.builder()
                 .reviewId(reviewId)
                 .liked(liked)
-                .likeCount(linkedCount)
+                .likeCount(likeCount)
                 .build();
     }
 

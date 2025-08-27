@@ -32,4 +32,8 @@ public class Review extends BaseEntity {
 
     private int likeCount;
 
+    public void updateLikeCount(int likeCount) {
+        this.likeCount = likeCount;
+    }
+
 }
