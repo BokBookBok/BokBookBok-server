@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 
 @Entity
@@ -48,6 +49,12 @@ public class UserBookRecord extends BaseEntity {
         if (newStatus == Status.READ_COMPLETED) {
             this.endedAt = today;
         }
+    }
+
+    public int getReadingDays() {
+        if (startedAt == null) return 0;
+        LocalDate end = (endedAt != null) ? endedAt : LocalDate.now();
+        return (int) ChronoUnit.DAYS.between(startedAt, end) + 1;
     }
 
     public void updateStatus(Status status) {
