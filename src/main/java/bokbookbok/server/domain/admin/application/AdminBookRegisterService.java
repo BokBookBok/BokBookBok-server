@@ -40,6 +40,7 @@ public class AdminBookRegisterService {
                 .title(book.getTitle())
                 .description(book.getDescription())
                 .startDate(book.getStartDate())
+                .author(book.getAuthor())
                 .endDate(book.getEndDate())
                 .build();
     }
