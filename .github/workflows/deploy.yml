@@ -38,14 +38,60 @@ jobs:
     needs: build
 
     steps:
-      - name: EC2에 SSH 접속하여 Docker 컨테이너 재배포
+      - name: EC2에 SSH 접속하여 무중단 배포
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
+            set -euo pipefail
+            
+            if docker ps --format '{{.Names}} {{.Ports}}' | grep -q 'bokbookbok_server_blue.*0.0.0.0:8080->8080'; then
+              CURRENT_PORT=8080
+            else
+              CURRENT_PORT=8081
+            fi
+            
+            if [ "$CURRENT_PORT" = "8080" ]; then
+              NEW_PORT=8081
+            else
+              NEW_PORT=8080
+            fi
+            
+            NEW_NAME=bokbookbok_server_$(if [ "$NEW_PORT" = "8080" ]; then echo "blue"; else echo "green"; fi)
+            OLD_NAME=bokbookbok_server_$(if [ "$CURRENT_PORT" = "8080" ]; then echo "blue"; else echo "green"; fi)
+            
+            echo "새 컨테이너 실행: $NEW_NAME (포트: $NEW_PORT)"
+            
             docker pull ${{ secrets.DOCKER_USERNAME }}/bokbookbok_server:latest
-            docker stop bokbookbok_server || true
-            docker rm bokbookbok_server || true
-            docker run -d -p 8080:8080 --name bokbookbok_server ${{ secrets.DOCKER_USERNAME }}/bokbookbok_server:latest
+            
+            docker stop $NEW_NAME || true
+            docker rm $NEW_NAME || true
+            docker run -d --name $NEW_NAME -p $NEW_PORT:8080 ${{ secrets.DOCKER_USERNAME }}/bokbookbok_server:latest
+            
+            echo "헬스체크 시작"
+            for i in $(seq 1 40); do
+              STATUS=$(curl -s http://localhost:$NEW_PORT/actuator/health || true)
+              echo "[$i] health: $STATUS"
+              echo "$STATUS" | grep -q '"status":"UP"' && PASSED=1 && break || true
+              sleep 3
+            done
+            
+            if [ "${PASSED:-0}" -ne 1 ]; then
+              echo "헬스체크 실패 → 새 컨테이너 로그"
+              docker logs "$NEW_NAME" | tail -n 200
+              docker stop "$NEW_NAME" || true        
+              docker rm "$NEW_NAME" || true
+              exit 1
+            fi
+            echo "헬스체크 통과"
+            
+            echo "nginx 포트 전환"
+            sudo sed -i "s/server 127\.0\.0\.1:[0-9][0-9]*/server 127.0.0.1:$NEW_PORT/" /etc/nginx/conf.d/app-upstream.conf
+            sudo nginx -t
+            sudo systemctl reload nginx
+            
+            echo "이전 컨테이너 정리: $OLD_NAME"
+            docker stop $OLD_NAME || true
+            docker rm $OLD_NAME || true

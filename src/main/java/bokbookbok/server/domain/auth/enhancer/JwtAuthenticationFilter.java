@@ -26,10 +26,10 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String uri = httpRequest.getRequestURI();
 
-/*        if (uri.startsWith("/actuator")) {
+        if (uri.startsWith("/actuator")) {
             chain.doFilter(request, response);
             return;
-        }*/
+        }
 
         String token = resolveToken((HttpServletRequest) request);
 
