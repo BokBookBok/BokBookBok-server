@@ -52,9 +52,9 @@ public class UserBookRecordService {
                     return RecordSummaryResponse.builder()
                             .bookInfoResponse(BookInfoResponse.from(book, imageUrl))
                             .readDays(record.getReadingDays())
-                            .startedAt(record.getStartedAt())
-                            .endedAt(record.getEndedAt())
-                            .weekLabel(getWeekLabel(record.getStartedAt()))
+                            .startDate(book.getStartDate())
+                            .endDate(book.getEndDate())
+                            .weekLabel(getWeekLabel(book.getStartDate()))
                             .build();
                 })
                 .toList();

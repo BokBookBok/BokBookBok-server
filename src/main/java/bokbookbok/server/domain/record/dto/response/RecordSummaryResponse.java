@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class RecordSummaryResponse {
     private BookInfoResponse bookInfoResponse;
     private int readDays;
-    private LocalDate startedAt;
-    private LocalDate endedAt;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String weekLabel;
 }
