@@ -10,5 +10,6 @@ import lombok.Getter;
 @Builder
 public class LoginResponse {
     private Long userId;
+    private String nickname;
     private JwtToken jwtToken;
 }
