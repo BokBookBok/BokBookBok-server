@@ -9,6 +9,7 @@ import bokbookbok.server.domain.book.repository.BookRepository;
 import bokbookbok.server.domain.record.dao.UserBookRecordRepository;
 import bokbookbok.server.domain.record.domain.UserBookRecord;
 import bokbookbok.server.domain.user.domain.User;
+import bokbookbok.server.global.config.S3.S3Service;
 import bokbookbok.server.global.config.common.codes.ErrorCode;
 import bokbookbok.server.global.config.exception.BusinessExceptionHandler;
 import lombok.AllArgsConstructor;
@@ -16,13 +17,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class BookService {
     private final BookRepository bookRepository;
     private final UserBookRecordRepository recordRepository;
+    private final S3Service s3Service;
 
     @Transactional
     public BookStatusResponse updateBookStatus(Long bookId, User user, UpdateBookStatusRequest updateBookStatusRequest) {
@@ -65,7 +66,8 @@ public class BookService {
     public BookInfoResponse getCurrentBook(User user) {
         Book book = bookRepository.findCurrentBook()
                 .orElseThrow(() -> new BusinessExceptionHandler(ErrorCode.CURRENT_BOOK_NOT_FOUND));
+        String fullImageUrl = s3Service.getPublicUrl(book.getImageUrl());
 
-        return BookInfoResponse.from(book);
+        return BookInfoResponse.from(book, fullImageUrl);
     }
 }

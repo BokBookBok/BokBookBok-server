@@ -8,6 +8,7 @@ import bokbookbok.server.domain.record.domain.UserBookRecord;
 import bokbookbok.server.domain.record.dto.response.RecordHomeResponse;
 import bokbookbok.server.domain.record.dto.response.RecordSummaryResponse;
 import bokbookbok.server.domain.user.domain.User;
+import bokbookbok.server.global.config.S3.S3Service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ import java.util.Locale;
 public class UserBookRecordService {
 
     private final UserBookRecordRepository userBookRecordRepository;
+    private final S3Service s3Service;
 
     @Transactional(readOnly = true)
     public int getAverageReadingDaysByBook(Book book) {
@@ -43,13 +45,18 @@ public class UserBookRecordService {
         List<UserBookRecord> reviewedRecords = userBookRecordRepository.findAllByUserAndStatus(user, Status.REVIEWED);
 
         List<RecordSummaryResponse> summaries = reviewedRecords.stream()
-                .map(record -> RecordSummaryResponse.builder()
-                        .bookInfoResponse(BookInfoResponse.from(record.getBook()))
-                        .readDays(record.getReadingDays())
-                        .startedAt(record.getStartedAt())
-                        .endedAt(record.getEndedAt())
-                        .weekLabel(getWeekLabel(record.getStartedAt()))
-                        .build())
+                .map(record ->
+                {
+                    Book book = record.getBook();
+                    String imageUrl = s3Service.getPublicUrl(book.getImageUrl());
+                    return RecordSummaryResponse.builder()
+                            .bookInfoResponse(BookInfoResponse.from(book, imageUrl))
+                            .readDays(record.getReadingDays())
+                            .startedAt(record.getStartedAt())
+                            .endedAt(record.getEndedAt())
+                            .weekLabel(getWeekLabel(record.getStartedAt()))
+                            .build();
+                })
                 .toList();
 
         return RecordHomeResponse.builder()

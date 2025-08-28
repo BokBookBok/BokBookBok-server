@@ -63,4 +63,9 @@ public class S3Service {
         return key;
     }
 
+    public String getPublicUrl(String key) {
+        return String.format("https://%s.s3.%s.amazonaws.com/%s",
+                bucket, s3Client.serviceClientConfiguration().region(), key);
+    }
+
 }

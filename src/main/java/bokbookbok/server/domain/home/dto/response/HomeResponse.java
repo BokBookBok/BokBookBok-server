@@ -21,35 +21,35 @@ public class HomeResponse {
 
     private Status status;
 
-    public static HomeResponse forNotStarted(Book book, Review bestReview) {
+    public static HomeResponse forNotStarted(Book book, Review bestReview, String imageUrl) {
         return HomeResponse.builder()
-                .book(BookInfoResponse.from(book))
+                .book(BookInfoResponse.from(book, imageUrl))
                 .bestReview(ReviewResponse.from(bestReview))
                 .status(Status.NOT_STARTED)
                 .build();
     }
 
-    public static HomeResponse forReading(Book book, UserBookRecord record, Review bestReview, int averageDays) {
+    public static HomeResponse forReading(Book book, UserBookRecord record, Review bestReview, int averageDays, String imageUrl) {
         return HomeResponse.builder()
-                .book(BookInfoResponse.from(book))
+                .book(BookInfoResponse.from(book, imageUrl))
                 .record(RecordDayResponse.from(record, averageDays))
                 .bestReview(ReviewResponse.from(bestReview))
                 .status(record.getStatus())
                 .build();
     }
 
-    public static HomeResponse forReadCompleted(Book book, UserBookRecord record, Review bestReview, int averageDays) {
+    public static HomeResponse forReadCompleted(Book book, UserBookRecord record, Review bestReview, int averageDays, String imageUrl) {
         return HomeResponse.builder()
-                .book(BookInfoResponse.from(book))
+                .book(BookInfoResponse.from(book, imageUrl))
                 .record(RecordDayResponse.from(record, averageDays))
                 .status(record.getStatus())
                 .bestReview(ReviewResponse.from(bestReview))
                 .build();
     }
 
-    public static HomeResponse forReviewed(Book book, UserBookRecord record, Review myReview, Review bestReview, int averageDays) {
+    public static HomeResponse forReviewed(Book book, UserBookRecord record, Review myReview, Review bestReview, int averageDays, String imageUrl) {
         return HomeResponse.builder()
-                .book(BookInfoResponse.from(book))
+                .book(BookInfoResponse.from(book, imageUrl))
                 .record(RecordDayResponse.from(record, averageDays))
                 .myReview(ReviewResponse.from(myReview))
                 .status(record.getStatus())

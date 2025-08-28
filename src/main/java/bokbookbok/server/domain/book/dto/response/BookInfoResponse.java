@@ -13,13 +13,13 @@ public class BookInfoResponse {
     private String description;
     private String imageUrl;
 
-    public static BookInfoResponse from(Book book) {
+    public static BookInfoResponse from(Book book, String imageUrl) {
         return BookInfoResponse.builder()
                 .id(book.getId())
                 .title(book.getTitle())
                 .description(book.getDescription())
                 .author(book.getAuthor())
-                .imageUrl(book.getImageUrl())
+                .imageUrl(imageUrl)
                 .build();
     }
 }
