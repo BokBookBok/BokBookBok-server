@@ -95,6 +95,7 @@ public class AuthService {
 
             return LoginResponse.builder()
                     .userId(adminUser.getId())
+                    .nickname(adminUser.getNickname())
                     .jwtToken(jwtToken)
                     .build();
         }
