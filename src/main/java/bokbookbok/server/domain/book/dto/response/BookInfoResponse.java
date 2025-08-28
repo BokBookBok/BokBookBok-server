@@ -10,12 +10,14 @@ public class BookInfoResponse {
     private Long id;
     private String title;
     private String author;
+    private String description;
     private String imageUrl;
 
     public static BookInfoResponse from(Book book) {
         return BookInfoResponse.builder()
                 .id(book.getId())
                 .title(book.getTitle())
+                .description(book.getDescription())
                 .author(book.getAuthor())
                 .imageUrl(book.getImageUrl())
                 .build();
