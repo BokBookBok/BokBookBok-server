@@ -8,6 +8,8 @@ import lombok.Getter;
 @Builder
 public class ReviewResponse {
     private Long id;
+    private String nickname;
+    private String name;
     private String content;
     private int likeCount;
 
@@ -18,6 +20,7 @@ public class ReviewResponse {
                 .id(review.getId())
                 .content(review.getContent())
                 .likeCount(review.getLikeCount())
+                .nickname(review.getUser().getNickname())
                 .build();
     }
 }
